@@ -1,0 +1,9 @@
+wandb/
+out/
+data/
+t2t/
+cache/
+.cache/
+__pycache__/
+*.py[cod]
+*$py.class
