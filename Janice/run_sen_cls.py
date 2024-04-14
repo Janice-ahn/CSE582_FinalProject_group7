@@ -48,7 +48,7 @@ from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
 from t5_trainer import T5EncoderTrainer
 from t5_encoder import T5ConfigForSequenceClassification, T5EncoderForSequenceClassification
-
+from sklearn.metrics import precision_recall_fscore_support
 
 require_version("datasets>=1.8.0", "To fix: pip install -r examples/pytorch/text-classification/requirements.txt")
 
@@ -406,10 +406,8 @@ def main():
     if data_args.pad_to_max_length:
         padding = "max_length"
     else:
-        # We will pad later, dynamically at batch creation, to the max sequence length in each batch
         padding = False
 
-    # Some models have set the order of the labels to use, so let's make sure we do use it.
     label_to_id = categories2ids
 
     if label_to_id is not None:
@@ -486,20 +484,34 @@ def main():
     # You can define your custom compute_metrics function. It takes an `EvalPrediction` object (a namedtuple with a
     # predictions and label_ids field) and has to return a dictionary string to float.
     def compute_metrics(p: EvalPrediction):
-        preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
-        preds = np.squeeze(preds) if is_regression else np.argmax(preds, axis=1)
+        # preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
+        # preds = np.squeeze(preds) if is_regression else np.argmax(preds, axis=1)
 
-        # print(p.label_ids)
-        # result = metric.compute(predictions=preds, references=p.label_ids)
-        result = dict()
-        result.update(acc_metric.compute(predictions=preds, references=p.label_ids))
-        result.update(f_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
-        result.update(p_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
-        result.update(r_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
+        # # print(p.label_ids)
+        # # result = metric.compute(predictions=preds, references=p.label_ids)
+        # result = dict()
+        # result.update(acc_metric.compute(predictions=preds, references=p.label_ids))
+        # result.update(f_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
+        # result.update(p_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
+        # result.update(r_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
 
-        result = {k: round(v * 100, 4) for k, v in result.items()}
+        # result = {k: round(v * 100, 4) for k, v in result.items()}
         
-        return result
+        # return result
+        preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
+        preds = np.argmax(preds, axis=1)
+        labels = p.label_ids
+
+        # Calculate precision, recall, and F1-score for each class
+        precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average=None, labels=[0,1])
+        overall_precision, overall_recall, overall_f1, _ = precision_recall_fscore_support(labels, preds, average='macro')
+
+        results = {
+            "Label 0": {"Precision": round(precision[0], 2), "Recall": round(recall[0], 2), "F1": round(f1[0], 2)},
+            "Label 1": {"Precision": round(precision[1], 2), "Recall": round(recall[1], 2), "F1": round(f1[1], 2)},
+            "Overall": {"Precision": round(overall_precision, 2), "Recall": round(overall_recall, 2), "F1": round(overall_f1, 2)}
+        }
+        return results        
 
     # Data collator will default to DataCollatorWithPadding when the tokenizer is passed to Trainer, so we change it if
     # we already did the padding.
@@ -546,6 +558,13 @@ def main():
     if training_args.do_eval:
         logger.info("*** Evaluate ***")
 
+        metrics = trainer.evaluate(eval_dataset=eval_dataset)
+
+        # Save detailed metrics to a new JSON file
+        output_eval_file = os.path.join(training_args.output_dir, "eval_results_labels.json")
+        with open(output_eval_file, "w") as writer:
+            json.dump(metrics, writer, indent=4)
+        
         # Loop to handle MNLI double evaluation (matched, mis-matched)
         tasks = [data_args.task_name]
         eval_datasets = [eval_dataset]
