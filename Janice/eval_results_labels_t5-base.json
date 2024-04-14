@@ -1,0 +1,22 @@
+{
+    "eval_loss": NaN,
+    "eval_Label 0": {
+        "Precision": 0.67,
+        "Recall": 1.0,
+        "F1": 0.8
+    },
+    "eval_Label 1": {
+        "Precision": 0.0,
+        "Recall": 0.0,
+        "F1": 0.0
+    },
+    "eval_Overall": {
+        "Precision": 0.33,
+        "Recall": 0.5,
+        "F1": 0.4
+    },
+    "eval_runtime": 0.3203,
+    "eval_samples_per_second": 1592.107,
+    "eval_steps_per_second": 49.948,
+    "epoch": 5.0
+}

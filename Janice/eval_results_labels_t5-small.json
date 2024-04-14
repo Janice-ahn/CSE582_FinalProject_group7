@@ -1,0 +1,22 @@
+{
+    "eval_loss": 1.9615259951733146e+18,
+    "eval_Label 0": {
+        "Precision": 0.66,
+        "Recall": 0.73,
+        "F1": 0.69
+    },
+    "eval_Label 1": {
+        "Precision": 0.32,
+        "Recall": 0.26,
+        "F1": 0.29
+    },
+    "eval_Overall": {
+        "Precision": 0.49,
+        "Recall": 0.49,
+        "F1": 0.49
+    },
+    "eval_runtime": 0.1195,
+    "eval_samples_per_second": 4267.99,
+    "eval_steps_per_second": 133.898,
+    "epoch": 5.0
+}
