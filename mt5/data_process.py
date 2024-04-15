@@ -105,7 +105,7 @@ def main():
         utt_1 = string_to_dict(utt_1)
         utt_2 = string_to_dict(utt_2)
         label = label.strip()
-        assert label in ["0","1"], "assert label should be 0 or 1. but got {}".format(label)
+        assert label in ["0", "1"], "assert label should be 0 or 1. but got {}".format(label)
         text_1 = utt2text(utt_1)
         text_2 = utt2text(utt_2)
         test_samples.append((text_1,text_2,label))

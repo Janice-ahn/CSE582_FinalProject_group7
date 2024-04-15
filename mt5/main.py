@@ -197,9 +197,9 @@ def main():
 
         result = dict()
         result.update(acc_metric.compute(predictions=preds, references=p.label_ids))
-        result.update(f_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
-        result.update(p_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
-        result.update(r_metric.compute(predictions=preds, references=p.label_ids,average="macro"))
+        result.update(f_metric.compute(predictions=preds, references=p.label_ids, average="macro"))
+        result.update(p_metric.compute(predictions=preds, references=p.label_ids, average="macro"))
+        result.update(r_metric.compute(predictions=preds, references=p.label_ids, average="macro"))
 
         result = {
             k: round(v * 100, 4) for k, v in result.items()
