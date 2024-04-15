@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a4408cf8-c575-4812-80fb-13c24c34f670" name="psu02">
+        <fileTransfer rootFolder="/scratch/mwc/Code" accessType="SFTP" host="e5-cse-cbhkx02.eecscl.psu.edu" port="22" sshConfigId="373de07f-35f3-4a7a-bc8f-da2db76ae923" sshConfig="wmm5390@e5-cse-cbhkx02.eecscl.psu.edu:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
