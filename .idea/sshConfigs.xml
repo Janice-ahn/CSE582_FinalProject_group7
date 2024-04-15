@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SshConfigs">
-    <configs>
-      <sshConfig authType="PASSWORD" host="e5-cse-cbhkx02.eecscl.psu.edu" id="373de07f-35f3-4a7a-bc8f-da2db76ae923" port="22" nameFormat="DESCRIPTIVE" username="wmm5390" useOpenSSHConfig="true" />
-    </configs>
-  </component>
-</project>
