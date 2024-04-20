@@ -507,9 +507,9 @@ def main():
         overall_precision, overall_recall, overall_f1, _ = precision_recall_fscore_support(labels, preds, average='macro')
 
         results = {
-            "Label 0": {"Precision": round(precision[0], 2), "Recall": round(recall[0], 2), "F1": round(f1[0], 2)},
-            "Label 1": {"Precision": round(precision[1], 2), "Recall": round(recall[1], 2), "F1": round(f1[1], 2)},
-            "Overall": {"Precision": round(overall_precision, 2), "Recall": round(overall_recall, 2), "F1": round(overall_f1, 2)}
+            "Label 0": {"Precision": round(precision[0]* 100, 4), "Recall": round(recall[0]* 100, 4), "F1": round(f1[0]* 100, 4)},
+            "Label 1": {"Precision": round(precision[1]* 100, 4), "Recall": round(recall[1]* 100, 4), "F1": round(f1[1]* 100, 4)},
+            "Overall": {"Precision": round(overall_precision* 100, 4), "Recall": round(overall_recall* 100, 4), "F1": round(overall_f1* 100, 4)}
         }
         return results        
 

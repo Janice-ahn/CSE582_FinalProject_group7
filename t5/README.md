@@ -5,7 +5,7 @@ conda create -n bash python=3.8.0
 conda init bash 
 # make sure to restart the terminal 
 # this is the comment for me lol 
-conda activate /data/Janice/CSE582_FinalProject_group7/Janice/t2t   
+conda activate bash
 # Data proocessing. Should return 5100 for training and 1290 for testing
 python data_processing.py --split
 
