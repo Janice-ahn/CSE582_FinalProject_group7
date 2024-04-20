@@ -41,11 +41,11 @@ python data_process.py
 ##  Train
 
 ```bash
-sh run.sh [GPU] [batch_size] [model_name] [learning_rate]
+sh main.sh [GPU] [batch_size] [model_name] [learning_rate]
 
-sh run.sh 7 32 google/mt5-small 5e-4
-sh run.sh 7 32 google/mt5-base 5e-4
-sh run.sh 7 16 google/mt5-large 5e-4
+sh main.sh 7 32 google/mt5-small 5e-4
+sh main.sh 7 32 google/mt5-base 5e-4
+sh main.sh 7 16 google/mt5-large 5e-4
 ```
 
 
