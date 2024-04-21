@@ -13,6 +13,7 @@ from transformers import (
     TrainingArguments,
     set_seed,
 )
+from sklearn.metrics import precision_recall_fscore_support
 
 from model import (
     SequenceClassificationTrainer,
@@ -204,19 +205,30 @@ def main():
 
     # Get the metric function
     acc_metric = evaluate.load("accuracy")
-    f_metric = evaluate.load("f1")
-    r_metric = evaluate.load('recall')
-    p_metric = evaluate.load('precision')
 
     def compute_metrics(p: EvalPrediction):
         preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
         preds = np.argmax(preds, axis=1)
 
-        result = dict()
+        labels = p.label_ids
+
+        # Calculate precision, recall, and F1-score for each class
+        precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average=None, labels=[0, 1])
+        overall_precision, overall_recall, overall_f1, _ = precision_recall_fscore_support(labels, preds, average="macro")
+
+        result = {
+            "label0_precision": precision[0],
+            "label0_recall": recall[0],
+            "label0_f1": f1[0],
+            "label1_precision": precision[1],
+            "label1_recall": recall[1],
+            "label1_f1": f1[1],
+            "overall_precision": overall_precision,
+            "overall_recall": overall_recall,
+            "overall_f1": overall_f1
+        }
+
         result.update(acc_metric.compute(predictions=preds, references=p.label_ids))
-        result.update(f_metric.compute(predictions=preds, references=p.label_ids, average="macro"))
-        result.update(p_metric.compute(predictions=preds, references=p.label_ids, average="macro"))
-        result.update(r_metric.compute(predictions=preds, references=p.label_ids, average="macro"))
 
         result = {
             k: round(v * 100, 4) for k, v in result.items()
